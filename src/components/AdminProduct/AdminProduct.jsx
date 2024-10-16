@@ -50,18 +50,7 @@ const AdminProduct = () => {
   const user = useSelector((state) => state?.user);
 
   const mutation = useMutationHooks((data) => {
-    const { name, price, description, rating, image, type, countInStock, discount } =
-      data;
-    const res = ProductService.createProduct({
-      name,
-      price,
-      description,
-      rating,
-      image,
-      type,
-      countInStock,
-      discount
-    });
+    const res = ProductService.createProduct(data);
     return res;
   });
 

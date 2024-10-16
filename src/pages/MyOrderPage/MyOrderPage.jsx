@@ -23,7 +23,7 @@ const MyOrderPage = () => {
   const navigate = useNavigate();
 
   const fetchMyOrder = async () => {
-    const res = await OrderService.getOrderByUserId(state?.id, state?.token);
+    const res = await OrderService.getOrderByUserId(state?.id);
     return res.data;
   };
 
@@ -44,14 +44,14 @@ const MyOrderPage = () => {
   };
 
   const mutation = useMutationHooks((data) => {
-    const { id, token, orderItems } = data;
-    const res = OrderService.cancelOrder(id, token, orderItems);
+    const { id, orderItems } = data;
+    const res = OrderService.cancelOrder(id, orderItems);
     return res;
   });
 
   const handleCancelOrder = (order) => {
     mutation.mutate(
-      { id: order._id, token: state?.token, orderItems: order?.orderItems },
+      { id: order._id, orderItems: order?.orderItems },
       {
         onSuccess: () => {
           queryOrder.refetch();

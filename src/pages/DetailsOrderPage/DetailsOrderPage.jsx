@@ -11,12 +11,10 @@ import Loading from '../../components/LoadingComponent/Loading'
 
 const DetailsOrderPage = () => {
   const params = useParams()
-  const location = useLocation()
-  const { state } = location
   const { id } = params
 
   const fetchDetailsOrder = async () => {
-    const res = await OrderService.getDetailsOrder(id, state?.token)
+    const res = await OrderService.getDetailsOrder(id)
     return res.data
   }
 

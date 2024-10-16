@@ -26,7 +26,6 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
-  const [search, setSearch] = useState("");
   const order = useSelector((state) => state.order);
   const [loading, setLoading] = useState(false);
   const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -45,6 +44,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     if (response.status === "OK") {
       localStorage.removeItem("access_token");
       dispatch(resetUser());
+      navigate("/");
     }
     setLoading(false);
   };
@@ -92,7 +92,6 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   }
 
   const onSearch = (e) => {
-    setSearch(e.target.value);
     dispatch(searchProduct(e.target.value));
   };
 

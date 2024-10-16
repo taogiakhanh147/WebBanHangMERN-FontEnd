@@ -132,8 +132,8 @@ const PaymentPage = () => {
   });
 
   const mutationAddOrder = useMutationHooks((data) => {
-    const { userAuthMiddleWare, token, ...rests } = data;
-    const res = OrderService.createOrder(userAuthMiddleWare, token, { ...rests });
+    const { ...rests } = data;
+    const res = OrderService.createOrder({ ...rests });
     return res;
   });
 
@@ -179,7 +179,6 @@ const PaymentPage = () => {
 
   const onSuccessPaypal = (details, data) => {
     mutationAddOrder.mutate({
-      token: user?.access_token,
       orderItems: order?.orderItemsSelected,
       fullName: user?.name,
       address: user?.address,
