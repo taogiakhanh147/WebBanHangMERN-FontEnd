@@ -51,7 +51,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://webbanhangmern-backend.onrender.com",
+  "proxy": "http://localhost:3001",
   "devDependencies": {
     "@testing-library/dom": "^10.4.0"
   }

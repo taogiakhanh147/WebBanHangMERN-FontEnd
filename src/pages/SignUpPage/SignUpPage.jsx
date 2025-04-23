@@ -22,23 +22,11 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [isInitialLoad, setIsInitialLoad] = useState(true)
   const navigate = useNavigate();
 
   const mutation = useMutationHooks((data) => UserService.signupUser(data));
 
-  const { data, isPending, isSuccess, isError } = mutation;
-
-  useEffect(() => {
-    if (isSuccess) {
-      message.success();
-      handleNavigateSignIn();
-    } else {
-      if(!isInitialLoad)
-      message.error();
-    }
-    setIsInitialLoad(false)
-  }, [isSuccess, isError, setIsInitialLoad]);
+  const { isPending } = mutation;
 
   const handleOnChangeEmail = (value) => {
     setEmail(value);
@@ -64,7 +52,16 @@ const SignUpPage = () => {
       setEmailError("Email không hợp lệ");
       return;
     }
-    mutation.mutate({ email, password, confirmPassword });
+    mutation.mutate({ email, password, confirmPassword }, {
+      onSuccess: (data) => {
+        if (data.status === "OK") {
+          message.success();
+          handleNavigateSignIn();
+        } else {
+          message.error(data.message);
+        }
+      },
+    });
   };
 
   return (
@@ -134,9 +131,6 @@ const SignUpPage = () => {
               onChange={handleOnChangeConfirmPassword}
             />
           </div>
-          {data?.status === "ERR" && (
-            <span style={{ color: "red" }}>{data?.message}</span>
-          )}
           <Loading isPending={isPending}>
             <ButtonComponent
               disabled={

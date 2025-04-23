@@ -47,6 +47,7 @@ const ProfilePage = () => {
     if (isSuccess) {
       message.success();
       handleGetDetailUser(user?.id, user?.access_token);
+      mutation.reset();
     } else if (isError) {
       message.error();
     }
@@ -107,22 +108,6 @@ const ProfilePage = () => {
               value={name}
               onChange={handleOnChangeName}
             />
-            <ButtonComponent
-              onClick={handelUpdate}
-              size={40}
-              styleButton={{
-                height: `30px`,
-                width: `fit-content`,
-                borderRadius: `4px`,
-                padding: `2px 6px 6px`,
-              }}
-              textbutton={"Cập nhật"}
-              styletextbutton={{
-                color: "rgb(26,148,255)",
-                fontSize: `15px`,
-                fontWeight: `700`,
-              }}
-            />
           </WrapperInput>
           {/* Email */}
           <WrapperInput>
@@ -132,22 +117,6 @@ const ProfilePage = () => {
               id="email"
               value={email}
               onChange={handleOnChangeEmail}
-            />
-            <ButtonComponent
-              onClick={handelUpdate}
-              size={40}
-              styleButton={{
-                height: `30px`,
-                width: `fit-content`,
-                borderRadius: `4px`,
-                padding: `2px 6px 6px`,
-              }}
-              textbutton={"Cập nhật"}
-              styletextbutton={{
-                color: "rgb(26,148,255)",
-                fontSize: `15px`,
-                fontWeight: `700`,
-              }}
             />
           </WrapperInput>
           {/* Phone */}
@@ -159,22 +128,6 @@ const ProfilePage = () => {
               value={phone}
               onChange={handleOnChangePhone}
             />
-            <ButtonComponent
-              onClick={handelUpdate}
-              size={40}
-              styleButton={{
-                height: `30px`,
-                width: `fit-content`,
-                borderRadius: `4px`,
-                padding: `2px 6px 6px`,
-              }}
-              textbutton={"Cập nhật"}
-              styletextbutton={{
-                color: "rgb(26,148,255)",
-                fontSize: `15px`,
-                fontWeight: `700`,
-              }}
-            />
           </WrapperInput>
           {/* Address */}
           <WrapperInput>
@@ -184,22 +137,6 @@ const ProfilePage = () => {
               id="address"
               value={address}
               onChange={handleOnChangeAddress}
-            />
-            <ButtonComponent
-              onClick={handelUpdate}
-              size={40}
-              styleButton={{
-                height: `30px`,
-                width: `fit-content`,
-                borderRadius: `4px`,
-                padding: `2px 6px 6px`,
-              }}
-              textbutton={"Cập nhật"}
-              styletextbutton={{
-                color: "rgb(26,148,255)",
-                fontSize: `15px`,
-                fontWeight: `700`,
-              }}
             />
           </WrapperInput>
           {/* Avatar */}
@@ -220,12 +157,8 @@ const ProfilePage = () => {
                 alt="avatar"
               />
             )}
-            {/* <InputForm
-              style={{ width: "300px" }}
-              id="avatar"
-              value={avatar}
-              onChange={handleOnChangeAvatar}
-            /> */}
+          </WrapperInput>
+          <div style={{display: 'flex', justifyContent: 'center'}}>
             <ButtonComponent
               onClick={handelUpdate}
               size={40}
@@ -242,7 +175,7 @@ const ProfilePage = () => {
                 fontWeight: `700`,
               }}
             />
-          </WrapperInput>
+          </div>
         </WrapperContenProfile>
       </Loading>
     </div>

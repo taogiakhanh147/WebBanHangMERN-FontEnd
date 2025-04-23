@@ -26,6 +26,7 @@ const AdminPage = () => {
   ];
 
   const [keySelected, setKeySelected] = useState('');
+  
   const getAllOrder = async () => {
     const res = await OrderService.getAllOrder(user?.access_token)
     return {data: res?.data, key: 'orders'}
@@ -48,6 +49,7 @@ const AdminPage = () => {
       {queryKey: ['orders'], queryFn: getAllOrder, staleTime: 1000 * 60},
     ]
   })
+
   const memoCount = useMemo(() => {
     const result = {}
     try {
@@ -61,6 +63,7 @@ const AdminPage = () => {
       return result
     }
   },[queries])
+
   const COLORS = {
    users: ['#e66465', '#9198e5'],
    products: ['#a8c0ff', '#3f2b96'],

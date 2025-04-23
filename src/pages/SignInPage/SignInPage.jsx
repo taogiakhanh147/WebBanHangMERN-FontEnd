@@ -6,7 +6,7 @@ import {
 } from "./style";
 import InputForm from "../../components/InputForm/InputForm";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
-import { Image } from "antd";
+import { Image, message } from "antd";
 import imageLogo from "../../assets/images/logo-login.png";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -28,25 +28,7 @@ const SignInPage = () => {
 
   const mutation = useMutationHooks((data) => UserService.loginUser(data));
 
-  const { data, isPending, isSuccess } = mutation;
-
-  useEffect(() => {
-    if(isSuccess) {
-      if(location?.state) {
-        navigate(location?.state)
-      } else {
-        navigate('/')
-      }
-      localStorage.setItem('access_token', JSON.stringify(data?.access_token))
-      localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
-      if(data?.access_token) {
-        const decoded = jwtDecode(data?.access_token)
-        if(decoded?.id) {
-          handleGetDetailUser(decoded?.id, data?.access_token)
-        }
-      }
-    }
-  }, [isSuccess])
+  const { isPending } = mutation;
 
   const handleGetDetailUser = async (id, token) => {
     const storage = localStorage.getItem('refresh_token')
@@ -68,10 +50,28 @@ const SignInPage = () => {
   };
 
   const handelSignIn = () => {
-    mutation.mutate({
-      email,
-      password,
-    });
+    mutation.mutate(
+      { email, password }, 
+      {
+        onSuccess: (data) => {
+          if(data.status === "OK") {
+            if(location?.state) {
+              navigate(location?.state)
+            } else {
+              navigate('/')
+            }
+            localStorage.setItem('access_token', JSON.stringify(data?.access_token))
+            localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
+            if(data?.access_token) {
+              const decoded = jwtDecode(data?.access_token)
+              if(decoded?.id) {
+                handleGetDetailUser(decoded?.id, data?.access_token)
+              }
+            }
+          } else {
+            message.error(data.message);
+          }
+        }});
   };
 
   return (
@@ -121,9 +121,6 @@ const SignInPage = () => {
               onChange={handleOnChangePassword}
             />
           </div>
-          {data?.status === "ERR" && (
-            <span style={{ color: "red" }}>{data?.message}</span>
-          )}
           <Loading isPending={isPending}>
             <ButtonComponent
               disabled={!email.length || !password.length}
