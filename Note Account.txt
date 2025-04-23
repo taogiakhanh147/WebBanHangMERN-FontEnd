@@ -1,2 +1,3 @@
 Account: taogiakhanh@gmail.com
+Password: 123
 Role: Admin
